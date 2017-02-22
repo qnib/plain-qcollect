@@ -16,7 +16,8 @@ ENV QCOLLECT_GRAPHITE_INTERVAL=4 \
     QCOLLECT_INFLUXDB_USERNAME=root \
     QCOLLECT_INFLUXDB_PASSWORD=root \
     QCOLLECT_INFLUXDB_DATABASE=qcollect \
-    QCOLLECT_OPENTSDB_COLLECTOR_ENABLED=false \
+    QCOLLECT_OPENTSDB_COLLECTOR_ENABLED=true \
+    QCOLLECT_OPENTSDB_PORT=4242 \
     QCOLLECT_DOCKERSTATS_CPUTHROTTLE=false \
     QCOLLECT_DOCKERSTATS_CPUPERCORE=false \
     QCOLLECT_DOCKERSTATS_BLKIO=true \
@@ -33,3 +34,11 @@ ADD opt/qnib/qcollect/bin/start.sh \
     opt/qnib/qcollect/bin/healthcheck.sh \
     opt/qnib/qcollect/bin/warn.sh \
     /opt/qnib/qcollect/bin/
+ADD opt/qnib/entry/30-config-qcollect.sh \
+    opt/qnib/entry/31-config-qcollect-opentsdb.sh \
+    /opt/qnib/entry/
+ADD opt/qnib/qcollect/etc/DockerStats.conf \
+    opt/qnib/qcollect/etc/OpenTSDB.conf \
+    opt/qnib/qcollect/etc/qcollect.conf \
+    /opt/qnib/qcollect/etc/
+CMD ["/opt/qnib/qcollect/bin/start.sh"]
